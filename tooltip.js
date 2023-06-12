@@ -21,7 +21,7 @@ function LoadToolTips() {
 
   if (refreshTooltip) {
     $.ajax({
-      url: 'http://localhost:52356/ToolTip/GetAll',
+      url: 'https://tooltips.obsres.com/ToolTip/GetAll',
       type: 'GET',
       headers: {
         MyCustomHeader: 'important information',
