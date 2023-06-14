@@ -100,46 +100,28 @@ function ParseTooltips(result) {
 
         if (element.is('a') || element.is('span') || element.is(':radio')) {
         } else {
-          var bottom =
-            parent.outerHeight(true) -
-            (element.position().top + element.outerHeight(true));
-          var elementHeight =
-            element.position().top + element.outerHeight(true);
+          var bottomDist = 0;
+          var elems = element.nextAll();
+          if (elems.length > 0) {
+            elems.each(function (i, elem) {
+              var elemHeight = $(elem).outerHeight(true);
 
-          if (bottom === element.position().top) {
-            topPosition = (elementHeight / 2 + 10) * -1;
-          } else {
-            var bottomDist = 0;
-            var elems = element.nextAll();
-            if (elems.length > 0) {
-              elems.each(function (i, elem) {
-                var elemHeight = $(elem).outerHeight(true);
+              if ($(elem).is('label')) {
+                return;
+              }
 
-                if ($(elem).is('label')) {
-                  return;
-                }
+              if ($(elem).is(':checkbox')) {
+                bottomDist += 35;
+              } else if (elemHeight === 0) {
+                bottomDist += 15.5;
+              } else {
+                bottomDist += elemHeight;
+              }
+            });
+          }
 
-                if ($(elem).is(':checkbox')) {
-                  bottomDist += 35;
-                } else if (elemHeight === 0) {
-                  bottomDist += 15.5;
-                } else {
-                  bottomDist += elemHeight;
-                }
-
-                console.log(
-                  element.attr('name'),
-                  `Outer Height: ${$(elem).outerHeight(true)}, Height: ${$(
-                    elem
-                  ).height()}`
-                );
-              });
-            }
-            topPosition = (element.outerHeight(true) / 2 + bottomDist) * -1;
-
-            if (item.Setting_TopOffset) {
-              topPosition += item.Setting_TopOffset;
-            }
+          if (item.Setting_TopOffset) {
+            topPosition += item.Setting_TopOffset;
           }
         }
 
@@ -152,7 +134,11 @@ function ParseTooltips(result) {
         if (element.is('a') || element.is('span')) {
           $(element).append(icon);
         } else {
-          $(parent).append(icon);
+          if (float == 'left') {
+            $(icon).insertBefore(element);
+          } else {
+            $(parent).append(icon);
+          }
         }
       }
     });
