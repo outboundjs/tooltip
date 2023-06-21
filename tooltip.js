@@ -56,11 +56,13 @@ function ParseTooltips(result) {
         var iconStyle = '';
         var leftPosition = 0;
         var zIndex = 1;
+        var placement = 'top';
 
         if (item.IconType === 'Asterisk') {
           iconType = 'fa-asterisk fa-sm';
           iconStyle = 'font-size: 9px;';
           leftPosition = -8;
+          placement = 'right';
         } else {
           leftPosition = -18;
         }
@@ -127,7 +129,7 @@ function ParseTooltips(result) {
 
         var icon = `<div class="ob-tooltip" style="position: relative; display: inline-block; float: ${float}; zoom: 1; cursor: pointer;">
                                 <div style="position: absolute; display: inline; left: ${leftPosition}px; top: ${topPosition}px; z-index: ${zIndex};">
-                                    <i class ="fa ${iconType}" aria-hidden="true" data-toggle="tooltip" title="${item.TipDescription}" style="color: #337ab7;${iconStyle}"></i>
+                                    <i class ="fa ${iconType}" aria-hidden="true" data-toggle="tooltip" data-placement="${placement}" title="${item.TipDescription}" style="color: #337ab7;${iconStyle}"></i>
                                 </div>
                             </div>`;
 
@@ -145,7 +147,6 @@ function ParseTooltips(result) {
 
     $(document).ready(function () {
       $('[data-toggle="tooltip"]').tooltip({
-        placement: 'top',
         container: 'body',
         html: true,
       });
